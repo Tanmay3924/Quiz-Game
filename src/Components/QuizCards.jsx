@@ -14,9 +14,24 @@ const QuizCards = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
-  let sc = (score / questions.length) * 100;
+  let [userAnswers, setUserAnswer] = useState([]);
+  const [review, setReview] = useState(false);
+  const sc = (score / questions.length) * 100;
+  useEffect(() => {
+    console.log("Updated answers:", userAnswers);
+  }, [userAnswers]);
   const handleSubmit = () => {
     const currentQuestion = questions[currentIndex];
+    setUserAnswer((prev) => [
+      ...prev,
+      {
+        Question: currentQuestion.question,
+        Answer: currentQuestion.answer,
+        useranswer: selectedOption,
+        Options: currentQuestion.options,
+      },
+    ]);
+
     if (selectedOption === currentQuestion.answer) {
       setScore(score + 1);
     }
@@ -59,9 +74,59 @@ const QuizCards = () => {
               Your Score for this game is : {sc}% ( {score} / {questions.length}
               )
             </p>
-            <Link to="/">
-              <button className="btn btn-primary">Restart</button>
-            </Link>
+            {!review ? (
+              <>
+                <Link to="/">
+                  <button className="btn btn-primary">Restart</button>
+                </Link>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => setReview(true)}
+                >
+                  Review
+                </button>
+              </>
+            ) : (
+              <>
+                {userAnswers.map((Q, index) => (
+                  <div key={index} className="card container ca mt-4">
+                    <div className="shadow-lg border-0 p-4">
+                      <div className="card-body body">
+                        <h5 className="text-secondary mb-2">
+                          Question {index + 1}
+                        </h5>
+                        <h4 className="card-title mb-4 fw-semibold">
+                          {decodeHtml(Q.Question)}
+                        </h4>
+
+                        <div className="d-grid gap-3">
+                          {Q.Options.map((option, i) => {
+                            const isCorrect = option === Q.Answer;
+                            const isUserChoice = option === Q.useranswer;
+
+                            return (
+                              <button
+                                key={i}
+                                className={`btn border text-start shadow-sm ${
+                                  isCorrect
+                                    ? "btn-success"
+                                    : isUserChoice
+                                    ? "btn-danger"
+                                    : "btn-light"
+                                }`}
+                              >
+                                {String.fromCharCode(65 + i)}.{" "}
+                                {decodeHtml(option)}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         ) : questions.length > 0 ? (
           <div className="card container ca">
@@ -102,8 +167,8 @@ const QuizCards = () => {
           </div>
         ) : (
           <div className="m">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         )}
