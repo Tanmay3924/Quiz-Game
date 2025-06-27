@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { useEffect, useState } from "react";
 
 import { shuffle, decodeHtml } from "./Utils/Helper";
@@ -58,6 +59,9 @@ const QuizCards = () => {
               Your Score for this game is : {sc}% ( {score} / {questions.length}
               )
             </p>
+            <Link to="/">
+              <button className="btn btn-primary">Restart</button>
+            </Link>
           </div>
         ) : questions.length > 0 ? (
           <div className="card container ca">
@@ -97,7 +101,11 @@ const QuizCards = () => {
             </div>
           </div>
         ) : (
-          <p className="text-center">Loading questions...</p>
+          <div className="m">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
         )}
       </div>
       {}
