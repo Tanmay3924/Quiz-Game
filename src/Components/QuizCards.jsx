@@ -13,16 +13,11 @@ const QuizCards = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
-  let s = localStorage.getItem("score");
   let sc = (score / questions.length) * 100;
   const handleSubmit = () => {
     const currentQuestion = questions[currentIndex];
     if (selectedOption === currentQuestion.answer) {
       setScore(score + 1);
-      if (score > s) {
-        // sc = (score / questions.length) * 100;
-        localStorage.setItem("score", JSON.stringify(sc));
-      }
     }
 
     if (currentIndex + 1 < questions.length) {
@@ -54,9 +49,6 @@ const QuizCards = () => {
 
   return (
     <>
-      {/* {console.log(
-        `https://opentdb.com/api.php?amount=${config.numberOfQuestions}&category=${config.category}&difficulty=${config.difficulty}&type=${config.type}`
-      )} */}
       <div className="Tanmay">
         {" "}
         {showResult ? (
@@ -66,7 +58,6 @@ const QuizCards = () => {
               Your Score for this game is : {sc}% ( {score} / {questions.length}
               )
             </p>
-            {/* <p>Your highest score was {s}% </p> */}
           </div>
         ) : questions.length > 0 ? (
           <div className="card container ca">
