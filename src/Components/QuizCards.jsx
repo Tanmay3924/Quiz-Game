@@ -20,9 +20,8 @@ const QuizCards = () => {
   let [userAnswers, setUserAnswer] = useState([]);
   const [review, setReview] = useState(false);
   const sc = (score / questions.length) * 100;
-  // useEffect(() => {
-  //   console.log("Updated answers:", userAnswers);
-  // }, [userAnswers]);
+  // const [timeLeft, setTimeLeft] = useState(100); // seconds
+
   const handleSubmit = () => {
     const currentQuestion = questions[currentIndex];
     setUserAnswer((prev) => [
@@ -41,9 +40,9 @@ const QuizCards = () => {
 
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex(currentIndex + 1);
-      setSelectedOption(null); // reset for next question
+      setSelectedOption(null);
     } else {
-      setShowResult(true); // quiz finished
+      setShowResult(true);
     }
   };
 
@@ -65,6 +64,42 @@ const QuizCards = () => {
       })
       .catch((error) => console.error("Error fetching quiz:", error));
   }, []);
+  // useEffect(() => {
+  //   if (!showResult && questions.length > 0) {
+  //     const timer = setInterval(() => {
+  //       setTimeLeft((prev) => {
+  //         if (prev <= 1) {
+  //           clearInterval(timer);
+
+  //           const currentQuestion = questions[currentIndex];
+
+  //           // ⬇️ Check if the selected option was correct
+  //           if (selectedOption === currentQuestion.answer) {
+  //             setScore((prevScore) => prevScore + 1);
+  //           }
+
+  //           // ⬇️ Record the answer (even if none selected)
+  //           setUserAnswer((prev) => [
+  //             ...prev,
+  //             {
+  //               Question: currentQuestion.question,
+  //               Answer: currentQuestion.answer,
+  //               useranswer: selectedOption,
+  //               Options: currentQuestion.options,
+  //             },
+  //           ]);
+
+  //           setShowResult(true);
+  //           return 0;
+  //         }
+
+  //         return prev - 1;
+  //       });
+  //     }, 1000);
+
+  //     return () => clearInterval(timer);
+  //   }
+  // }, [questions, showResult, currentIndex, selectedOption]);
 
   return (
     <>
@@ -72,9 +107,7 @@ const QuizCards = () => {
         {" "}
         {showResult ? (
           <div className="container text-center mt-5">
-            <h2>Quiz Finished!</h2>
-
-            <ScoreCircle score={sc}></ScoreCircle>
+            <ScoreCircle score={sc} />
 
             {!review ? (
               <>
@@ -89,11 +122,16 @@ const QuizCards = () => {
                 </button>
               </>
             ) : (
-              <Review userAnswers={userAnswers}></Review>
+              <Review userAnswers={userAnswers} />
             )}
           </div>
         ) : questions.length > 0 ? (
           <div className="container">
+            {/* <div className="text-end pe-3 fw-bold">
+              Time Left: {Math.floor(timeLeft / 60)}:
+              {String(timeLeft % 60).padStart(2, "0")}
+            </div> */}
+
             <div className="shadow-lg border-0 p-4">
               <div className="card-body body">
                 <h5 className="text-secondary mb-2">
@@ -133,7 +171,6 @@ const QuizCards = () => {
           <Loader />
         )}
       </div>
-      {}
     </>
   );
 };

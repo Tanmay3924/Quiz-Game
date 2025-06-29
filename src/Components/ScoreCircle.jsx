@@ -2,6 +2,7 @@ const ScoreCircle = ({ score }) => {
   return (
     <>
       {" "}
+      <h2>Quiz Finished!</h2>
       <p>Your Score for this game is :</p>
       <div className="circle-loader">
         <svg viewBox="0 0 36 36" className="circular-chart green">

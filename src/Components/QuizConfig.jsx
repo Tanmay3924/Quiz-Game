@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { submit } from "../Slice/QuizSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router";
 
 const QuizSetup = () => {

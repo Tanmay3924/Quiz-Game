@@ -1,4 +1,4 @@
-import { shuffle, decodeHtml } from "./Utils/Helper";
+import { decodeHtml } from "./Utils/Helper";
 const Review = ({ userAnswers }) => {
   return (
     <>
