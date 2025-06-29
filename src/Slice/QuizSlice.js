@@ -8,6 +8,7 @@ const QuizSlice = createSlice({
       difficulty: "",
       type: "",
     },
+    showResult: false,
   },
 
   reducers: {
@@ -15,7 +16,10 @@ const QuizSlice = createSlice({
       state.config = action.payload;
       // console.log(action);
     },
+    showResult1(state, action) {
+      state.showResult = action.payload;
+    },
   },
 });
-export const { submit } = QuizSlice.actions;
+export const { submit, showResult1 } = QuizSlice.actions;
 export default QuizSlice.reducer;

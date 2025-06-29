@@ -10,8 +10,6 @@ const QuizSetup = () => {
     difficulty: "",
     type: "",
   });
-  const data = useSelector((state) => state.Quiz.config);
-  // console.log(data);
 
   const dispatch = useDispatch();
 
